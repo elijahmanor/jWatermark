@@ -1,11 +1,76 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-    <title>jQuery Plugin</title>
+	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+	<script class="jsbin" src="http://github.com/jquery/jquery-metadata/raw/master/jquery.metadata.js"></script>
+	<meta charset=utf-8 />
+	<title>JS Bin</title>
+	<!--[if IE]>
+	  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<style>
+	  article, aside, figure, footer, header, hgroup,
+	  menu, nav, section { display: block; }
+	</style>
+    <script type="text/javascript">
+	(function($) {
+	    $.fn.stylize = function(options) {
+	
+	        options = $.extend({}, $.fn.stylize.defaultOptions, options);
+	
+	        this.each(function() {
+	            var $this = $(this);
+	
+	            //Support the Metadata Plugin
+	            options = $.metadata ? $.extend({}, options, $this.metadata()) : options;
+	            
+	            updateElement($this, options);
+	        });
+	
+	        return this;
+	    };
+	
+	    //Private Function
+	    function updateElement($element, options) {
+	        $element.attr('title', 'Hello Script Junkies!')
+	            .css({
+	                color: options.color,
+	                backgroundColor: options.backgroundColor
+	            });
+	    };
+	
+	    //Public Function
+	    $.fn.stylize.greet = function(name) {
+	        console.log('Hello, ' + name + ', welcome to Script Junkies!');
+	    };
+	
+	    $.fn.stylize.defaultOptions = {
+	        color: '#FFFFFF',
+	        backgroundColor: '#000000'
+	    }
+	})(jQuery);
+	
+	$(function() {
+	    $('#a1').stylize();
+	    
+	    $.fn.stylize.defaultOptions.color = 'green';
+	    $('#a2').stylize();
+	    
+	    $('#a3').stylize({
+	        color: 'yellow'
+	    });
+	
+	    $('#a4').stylize();    
+	  
+	    $('#a5').stylize.greet('Elijah');  
+	});    
+    </script>
 </head>
 <body>
-	<p></p>
-	
+  <a id="a1" href="http://www.jquery.com">Stylize</a><br/>
+  <a id="a2" href="http://www.jquery.com">Stylize</a><br/>
+  <a id="a3" href="http://www.jquery.com">Stylize</a><br/>
+  <a id="a4" href="http://www.jquery.com" class="{color: 'pink'}">Stylize</a><br/>
+  <a id="a5" href="http://www.jquery.com">Stylize</a><br/>
 </body>
 </html>
