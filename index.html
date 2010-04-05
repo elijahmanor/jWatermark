@@ -1,76 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
-	<script class="jsbin" src="http://github.com/jquery/jquery-metadata/raw/master/jquery.metadata.js"></script>
-	<meta charset=utf-8 />
-	<title>JS Bin</title>
-	<!--[if IE]>
-	  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script class="jsbin" src="http://github.com/jquery/jquery-metadata/raw/master/jquery.metadata.js"></script>
+<script class="jsbin" src="jquery.watermark.js"></script>
+<meta charset=utf-8 />
+<title>jQuery Watermark Plugin</title>
+<!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link type='text/css' rel='stylesheet'
+    href='http://github.com/jquery/qunit/raw/master/qunit/qunit.css' />
 	<style>
-	  article, aside, figure, footer, header, hgroup,
-	  menu, nav, section { display: block; }
+article, aside, figure, footer, header, hgroup,
+menu, nav, section { display: block; }
+.watermark, .watermark2, .watermark3, .watermark4, .watermark5 { color: #cccccc; }
 	</style>
-    <script type="text/javascript">
-	(function($) {
-	    $.fn.stylize = function(options) {
-	
-	        options = $.extend({}, $.fn.stylize.defaultOptions, options);
-	
-	        this.each(function() {
-	            var $this = $(this);
-	
-	            //Support the Metadata Plugin
-	            options = $.metadata ? $.extend({}, options, $this.metadata()) : options;
-	            
-	            updateElement($this, options);
-	        });
-	
-	        return this;
-	    };
-	
-	    //Private Function
-	    function updateElement($element, options) {
-	        $element.attr('title', 'Hello Script Junkies!')
-	            .css({
-	                color: options.color,
-	                backgroundColor: options.backgroundColor
-	            });
-	    };
-	
-	    //Public Function
-	    $.fn.stylize.greet = function(name) {
-	        console.log('Hello, ' + name + ', welcome to Script Junkies!');
-	    };
-	
-	    $.fn.stylize.defaultOptions = {
-	        color: '#FFFFFF',
-	        backgroundColor: '#000000'
-	    }
-	})(jQuery);
-	
-	$(function() {
-	    $('#a1').stylize();
-	    
-	    $.fn.stylize.defaultOptions.color = 'green';
-	    $('#a2').stylize();
-	    
-	    $('#a3').stylize({
-	        color: 'yellow'
-	    });
-	
-	    $('#a4').stylize();    
-	  
-	    $('#a5').stylize.greet('Elijah');  
-	});    
-    </script>
+    <script type="text/javascript">    
+$(function() {
+  $('#firstName').watermark({text: 'First Name'});
+  
+  $.watermark.defaultOptions.class = 'watermark2';
+  $('#lastName').watermark({text: 'Last Name'});
+  
+  $('#address1, #address2').watermark({
+    class: 'watermark3',
+    text: 'Address'
+  });
+  
+  $('#city').watermark({text: 'City', class: 'watermark4'});    
+  
+  $('#state').watermark();    
+  
+  $('#zip').watermark();    
+  
+  $('#firstName').data('watermark').greet('Elijah');  
+});  
+</script>
 </head>
 <body>
-  <a id="a1" href="http://www.jquery.com">Stylize</a><br/>
-  <a id="a2" href="http://www.jquery.com">Stylize</a><br/>
-  <a id="a3" href="http://www.jquery.com">Stylize</a><br/>
-  <a id="a4" href="http://www.jquery.com" class="{color: 'pink'}">Stylize</a><br/>
-  <a id="a5" href="http://www.jquery.com">Stylize</a><br/>
+  <fieldset>
+  	<legend>Interactive Examples</legend>
+		<input id="firstName" type="text" /><br/>
+		<input id="lastName" type="text" /><br/>
+		<input id="address1" type="text" /><br/>
+		<input id="address2" type="text" /><br/>
+		<input id="city" type="text" /><br/>
+		<input id="state" type="text" class="{text: 'State'}" /><br/>
+		<input id="zip" type="text" class="{text: 'Zip', class: 'watermark'}" /><br/>
+  </fieldset>
 </body>
 </html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+<script class="jsbin" src="http://github.com/jquery/jquery-metadata/raw/master/jquery.metadata.js"></script>
+<script class="jsbin" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+<script class="jsbin" src="jquery.watermark.js"></script>
+<meta charset=utf-8 />
+<title>jQuery Watermark Plugin</title>
+<!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<link type='text/css' rel='stylesheet'
+    href='http://github.com/jquery/qunit/raw/master/qunit/qunit.css' />
+	<style>
+article, aside, figure, footer, header, hgroup,
+menu, nav, section { display: block; }
+.watermark, .watermark2, .watermark3, .watermark4, .watermark5 { color: #cccccc; }
+	</style>
+    <script type="text/javascript">  
+var playGroundSelector = "#qunit-playground";
+module("Watermark jQuery Plugin", {
+  setup: function() {
+    $.watermark.defaultOptions = {
+      class: 'watermark',
+      text: 'Enter Text Here'
+    }    
+  },
+  teardown: function() {
+    $(playGroundSelector).empty();
+  }
+});
+
+test("Watermark With No Parameters", function() {
+  //Arrange
+  var testBox =
+      $("<input id='testBox' type='text' />")
+          .appendTo(playGroundSelector);
+  
+  //Act
+  testBox.watermark();
+  
+  //Assert
+  expect(2);
+  same(testBox.attr("class"), "watermark", "Class Should Not Be Defined");
+  same(testBox.val(), "Enter Text Here", "Watermark Should Not Be Default");
+});
+  
+test("Watermark Using Overriden Default Options", function() {
+  //Arrange
+  $.watermark.defaultOptions.class = "watermark2";
+  var testBox =
+      $("<input id='testBox' type='text' />")
+          .appendTo(playGroundSelector);
+  
+  //Act
+  testBox.watermark();
+  
+  //Assert
+  expect(2);
+  same(testBox.attr("class"), "watermark2", "Class Should Be watermark");
+  same(testBox.val(), "Enter Text Here", "Watermark Should Not Be Default");
+});  
+ 
+test("Watermark Should Use Passed in Arguments", function() {
+  //Arrange
+  var testBox =
+      $("<input id='testBox' type='text' />")
+          .appendTo(playGroundSelector);
+  
+  //Act
+  testBox.watermark({
+    text: 'Enter Text Here 2',
+    class: 'watermark3'
+  });
+  
+  //Assert
+  expect(2);
+  same(testBox.attr("class"), "watermark3", "Class Should Be watermark");
+  same(testBox.val(),
+       "Enter Text Here 2",
+       "Watermark Should Be 'Enter Text Here 2'");
+});  
+
+test("Watermark Should Use Metadata Options", function() {
+  //Arrange
+  var testBox =
+      $("<input id='testBox' type='text' />")
+      	  .attr('class', "{text: 'Enter Text Here 3', class: 'watermark4'}")
+          .appendTo(playGroundSelector);
+  
+  //Act
+  testBox.watermark();
+  
+  //Assert
+  expect(2);
+  ok(testBox.hasClass("watermark4"), "Class Should Be watermark");
+  same(testBox.val(),
+       "Enter Text Here 3",
+       "Watermark Should Be 'Enter Text Here 3'");
+}); 
+
+test("Watermark Should Clear on Focus", function() {
+  //Arrange
+  var testBox =
+      $("<input id='testBox' type='text' />")
+          .appendTo(playGroundSelector);
+  
+  //Act
+  testBox.watermark({
+    text: 'Enter Text Here 4',
+    class: 'watermark5'
+  }).focus();
+  
+  //Assert
+  expect(2);
+  ok(!testBox.hasClass("watermark5"), "Should not have watermark Class");
+  same(testBox.val(), "", "Watermark Value Should Be Cleared");
+}); 
+
+test("Watermark Should Restore If Add Text And Then Clear ", function() {
+  //Arrange
+  var testBox =
+      $("<input id='testBox' type='text' />")
+          .appendTo(playGroundSelector);
+  
+  //Act
+  testBox.watermark({
+    text: 'Enter Text Here 5',
+    class: 'watermark6'
+  }).focus().val('test').val('').trigger('blur');
+    
+  //Assert
+  expect(2);
+  ok(testBox.hasClass("watermark6"), "Should have watermark Class");
+  same(testBox.val(), "Enter Text Here 5", "Watermark Value Should Be 'Enter Text Here 5'");
+});
+</script>
+</head>
+<body>
+  <h1 id="qunit-header">QUnit Test Suite</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  
+  <div id="qunit-playground">
+  </div>
+</body>
+</html>
